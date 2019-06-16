@@ -1,0 +1,28 @@
+<data>
+  <result>true</result>
+  <students>
+    <student>
+      <name>John</name>
+      <age>10</age>
+      <hobbies>
+        <hobby>music</hobby>
+        <hobby>movie</hobby>
+      </hobbies>
+    </student>
+    <student>
+      <name>Paul</name>
+      <age>16</age>
+      <hobbies>
+        <hobby>game</hobby>
+      </hobbies>
+    </student>
+    <student>
+      <name>George</name>
+      <age>17</age>
+    </student>
+    <student>
+      <name>Ringo</name>
+      <age>18</age>
+    </student>
+  </students>
+</data>
