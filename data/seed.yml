@@ -1,5 +1,0 @@
-in:
-  type: file
-  path_prefix: '/Users/kent/work/embulk_example/./mydata/csv/sample_'
-out:
-  type: stdout

@@ -3,6 +3,11 @@
 ## setup
 ```
 embulk bundle --path vendor/bundle
+```
+
+## run
+
+```
 embulk run config/html.yml -b ./ -I ./
 ```
 
