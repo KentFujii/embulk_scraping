@@ -1,5 +1,9 @@
 # embulk scraping
 
+- extract_parser
+- transform_filter
+- load_formatter
+
 ## setup
 ```
 embulk bundle --path vendor/bundle
@@ -8,7 +12,7 @@ embulk bundle --path vendor/bundle
 ## run
 
 ```
-embulk run config/html.yml -b ./ -I ./
+embulk run scraping.yml -b ./ -I ./
 ```
 
 ## debug
@@ -17,6 +21,6 @@ embulk run config/html.yml -b ./ -I ./
 embed `binding.pry` to your plugin and run the command below
 
 ```
-embulk preview config/scraping.yml -b ./ -I ./
+embulk preview scraping.yml -b ./ -I ./
 
 ```

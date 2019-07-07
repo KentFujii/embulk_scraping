@@ -1,0 +1,34 @@
+in:
+  type: file
+  path_prefix: ./data/sample
+  parser:
+    type: extract_parser
+    schema:
+      - name: name
+        func: string
+        elements:
+          name:
+            xpath: //*[@id='contentMain']/article/div[1]/div[1]/h1/text()
+            regexp: (.+?)/.+?/.+?/.+?/.+
+      - name: room_number
+        func: none
+      - name: rent
+        func: string
+        elements:
+          rent:
+            xpath: //span[contains(text(), '賃料')]/../following-sibling::td[1]//text()
+            regexp: .+
+      # - name: images
+      #   elements:
+      #     appearance:
+      #       xpath: //p[contains(text(), '外観')]/preceding-sibling::span[1]//img/@src
+      #       regexp: .+
+      #     floor_plan:
+      #       xpath: //p[contains(text(), '間取図')]/preceding-sibling::span[1]//img/@src
+      #       regexp: .+
+      #     image:
+      #       xpath: //p[not(contains(text(), '間取図')) and not(contains(text(), '外観'))]/preceding-sibling::span[1]//img/@src
+      #       regexp: .+
+      #   func: callback
+out:
+  type: stdout
