@@ -26,22 +26,16 @@ module Embulk
             item = Nokogiri::HTML.parse(data)
             dest = @task["schema"].inject([]) do |memo, schema|
               # https://github.com/shinjiikeda/embulk-filter-script_ruby/blob/master/lib/embulk/filter/script_ruby.rb
-              xpath_processed = item.xpath(schema["path"])
-              # regexp_processed = item.xpath(schema["regex"])
-              # func_processed = 
-              # es = item.xpath(schema["path"])
+              preprocess = schema["elements"].map do |k, v|
+                {k.to_sym => item.xpath(v["xpath"]).to_s.scan(Regexp.new(v["regexp"])).last }
+              end
+              # run func
+              # string/array/hashのいずれかを返す
+              value = preprocess
               binding.pry
-              memo << es
-              memo
+              memo << value
             end
             @page_builder.add(dest)
-          #   Nokogiri::XML(data).xpath(@task["root"], @task["namespaces"]).each do |item|
-          #     dest = @task["schema"].inject([]) do |memo, schema|
-          #       es = item.xpath(schema["path"], @namespaces)
-          #       memo << convert(es.empty? ? nil : es.map(&:text), schema)
-          #       memo
-          #     end
-          #   end
           end
         end
         @page_builder.finish

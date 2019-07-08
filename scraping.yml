@@ -4,6 +4,24 @@ in:
   parser:
     type: extract_parser
     schema:
+      - name: room_id
+        elements:
+          room_id:
+            xpath: //title
+            regexp: \((\d+)\)
+        func: string
+      - name: images
+        elements:
+          appearance:
+            xpath: //p[contains(text(), '外観')]/preceding-sibling::span[1]//img/@src
+            regexp: .+
+          floor_plan:
+            xpath: //p[contains(text(), '間取図')]/preceding-sibling::span[1]//img/@src
+            regexp: .+
+          image:
+            xpath: //p[not(contains(text(), '間取図')) and not(contains(text(), '外観'))]/preceding-sibling::span[1]//img/@src
+            regexp: .+
+        func: callback
       - name: name
         func: string
         elements:
@@ -18,17 +36,129 @@ in:
           rent:
             xpath: //span[contains(text(), '賃料')]/../following-sibling::td[1]//text()
             regexp: .+
-      # - name: images
-      #   elements:
-      #     appearance:
-      #       xpath: //p[contains(text(), '外観')]/preceding-sibling::span[1]//img/@src
-      #       regexp: .+
-      #     floor_plan:
-      #       xpath: //p[contains(text(), '間取図')]/preceding-sibling::span[1]//img/@src
-      #       regexp: .+
-      #     image:
-      #       xpath: //p[not(contains(text(), '間取図')) and not(contains(text(), '外観'))]/preceding-sibling::span[1]//img/@src
-      #       regexp: .+
-      #   func: callback
+      - name: kanrihi
+        func: string
+        elements:
+          kanrihi:
+            xpath: //span[contains(text(), '管理費')]/../following-sibling::td[1]/text()
+            regexp: .+
+      - name: shikikin
+        func: string
+        elements:
+          shikikin:
+            xpath: //span[contains(text(), '敷金')]/../following-sibling::td[1]/text()
+            regexp: (.+?)/.+
+      - name: reikin
+        func: string
+        elements:
+          reikin:
+            xpath: //span[contains(text(), '礼金')]/../following-sibling::td[1]/text()
+            regexp: (.+?)/.+
+      - name: transportation
+        func: callback
+        elements:
+          transportation:
+            xpath: //span[contains(text(), '交通')]/../following-sibling::td[1]//li//text()
+            regexp: .+
+      - name: address
+        func: string
+        elements:
+          address:
+            xpath: //span[contains(text(), '所在地')]/../following-sibling::td[1]//text()
+            regexp: ^(?!地図を見る)(.+)+$
+      - name: madori
+        func: string
+        elements:
+          madori:
+            xpath: //span[contains(text(), '間取り')]/../following-sibling::td[1]/text()
+            regexp: (.+?)（
+      - name: square
+        func: string
+        elements:
+          square:
+            xpath: //span[contains(text(), '専有面積')]/../following-sibling::td[1]/text()
+            regexp: .+
+      - name: building_type
+        func: string
+        elements:
+          building_type:
+            xpath: //span[contains(text(), '構造・種別')]/../following-sibling::td[1]/text()
+            regexp: .+?/(.+)
+      - name: completion
+        func: string
+        elements:
+          completion:
+            xpath: //tr[3]/td[3]/text()
+            regexp: .+
+      - name: structure_type
+        func: string
+        elements:
+          structure_type:
+            xpath: //span[contains(text(), '構造・種別')]/../following-sibling::td[1]/text()
+            regexp: (.+?)/.+
+      - name: floor_height
+        func: string
+        elements:
+          floor_height:
+            xpath: //span[contains(text(), '建物階')]/../following-sibling::td[1]/text()
+            regexp: (.+?)/.+
+      - name: floor
+        func: string
+        elements:
+          floor:
+            xpath: //span[contains(text(), '建物階')]/../following-sibling::td[1]/text()
+            regexp: .+?/(.+)
+      - name: balcony_type
+        func: string
+        elements:
+          balcony_type:
+            xpath: //tr[3]/td[2]/text()
+            regexp: .+
+      - name: parking
+        func: string
+        elements:
+          parking:
+            xpath: //span[contains(text(), '駐車場')]/../following-sibling::td[1]/text()
+            regexp: .+
+      - name: hosyokin
+        func: none
+      - name: contract
+        func: none
+      - name: available_period
+        func: string
+        elements:
+          available_period:
+            xpath: //span[contains(text(), '入居可能日')]/../following-sibling::td[1]/text()
+            regexp: .+
+      - name: note
+        func: string
+        elements:
+          note:
+            xpath: //span[contains(text(), '備考')]/../following-sibling::td[1]//text()
+            regexp: .+
+      - name: option
+        func: list
+        elements:
+          facility:
+            xpath: //span[contains(text(), '設備')]/../following-sibling::td[1]/text()
+            regexp: ･(.+)|(.+?)･
+          condition:
+            xpath: //span[contains(text(), '条件')]/../following-sibling::td[1]/text()
+            regexp: ･(.+)|(.+?)･
+          option:
+            xpath: //ul[@class='tag_list_detail']/li/text()
+            regexp: .+
+      - name: publisher_name
+        func: string
+        elements:
+          publisher_name:
+            xpath: //div[1]/div[2]/div/div/h3//span/text()
+            regexp: .+
+      - name: publisher_phone
+        func: string
+        elements:
+          publisher_phone:
+            xpath: //p[contains(text(), 'お電話でお問い合わせ')][1]/parent::a[1]/@onclick[1]
+            regexp: \d+?-\d+?-\d+
 out:
   type: stdout

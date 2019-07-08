@@ -5,8 +5,17 @@
 - load_formatter
 
 ## setup
+
 ```
 embulk bundle --path vendor/bundle
+```
+
+## debug
+
+embed `binding.pry` to your plugin and run the command below
+
+```
+embulk preview scraping.yml -b ./ -I ./
 ```
 
 ## run
@@ -15,12 +24,3 @@ embulk bundle --path vendor/bundle
 embulk run scraping.yml -b ./ -I ./
 ```
 
-## debug
-
-
-embed `binding.pry` to your plugin and run the command below
-
-```
-embulk preview scraping.yml -b ./ -I ./
-
-```
