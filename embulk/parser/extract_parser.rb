@@ -31,7 +31,7 @@ module Embulk
                 {k.to_sym => item.xpath(v["xpath"]).to_s.scan(Regexp.new(v["regexp"])).last }
               end
               # run func
-              # string/array/hashのいずれかを返す
+              # string/array/hash/callbackのいずれかを返す
               value = preprocess
               memo << value
             end
@@ -39,6 +39,20 @@ module Embulk
           end
         end
         @page_builder.finish
+      end
+
+      private
+
+      def string_func
+      end
+
+      def array_func
+      end
+
+      def hash_func
+      end
+
+      def callback_func
       end
     end
   end
