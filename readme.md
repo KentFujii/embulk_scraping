@@ -15,7 +15,7 @@ embulk bundle --path vendor/bundle
 embed `binding.pry` to your plugin and run the command below
 
 ```
-embulk preview scraping.yml -b ./ -I ./
+embulk preview scraping.yml -b ./ -I ./ -G
 ```
 
 ## run
