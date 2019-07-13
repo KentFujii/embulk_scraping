@@ -3,6 +3,7 @@ in:
   path_prefix: ./data/sample
   parser:
     type: extract_parser
+    script: ./scraping.rb
     schema:
       - name: room_id
         elements:

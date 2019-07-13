@@ -8,6 +8,7 @@ module Embulk
       Plugin.register_parser("extract_parser", self)
 
       def self.transaction(config, &control)
+        require config.param("script", :string)
         schema = config.param("schema", :array)
         task = {
           :schema => schema,
@@ -28,12 +29,17 @@ module Embulk
               # https://github.com/shinjiikeda/embulk-filter-script_ruby/blob/master/lib/embulk/filter/script_ruby.rb
               # https://github.com/takumakanari/embulk-parser-xml/blob/master/lib/embulk/parser/xpath.rb
               next memo << nil if schema["func"] == "none"
-              preprocess = schema["elements"].map do |k, v|
-                {k.to_sym => item.xpath(v["xpath"]).to_s.scan(Regexp.new(v["regexp"])).last }
+              raw_hash = schema["elements"].map do |k, v|
+                [k.to_sym, item.xpath(v["xpath"]).map { |e| e.to_s.scan(Regexp.new(v["regexp"])) }.flatten]
+              end.to_h
+              case schema["func"]
+              when "string" then
+                value = string_func(raw_hash)
+              when "list" then
+                value = array_func(raw_hash)
+              when "callback" then
+                value = callback_func(raw_hash, schema["name"])
               end
-              # run func
-              # string/array/hash/callbackのいずれかを返す
-              value = preprocess
               memo << value
             end
             @page_builder.add(dest)
@@ -44,16 +50,16 @@ module Embulk
 
       private
 
-      def string_func
+      def string_func(raw_hash)
+        raw_hash.map { |k, v| v }.flatten.join
       end
 
-      def array_func
+      def list_func(raw_hash)
+        raw_hash.map { |k, v| v }.flatten
       end
 
-      def hash_func
-      end
-
-      def callback_func
+      def callback_func(raw_hash, name)
+        method(name).call(raw_hash)
       end
     end
   end
