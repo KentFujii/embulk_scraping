@@ -30,13 +30,13 @@ module Embulk
               # https://github.com/takumakanari/embulk-parser-xml/blob/master/lib/embulk/parser/xpath.rb
               next memo << nil if schema["func"] == "none"
               raw_hash = schema["elements"].map do |k, v|
-                [k.to_sym, item.xpath(v["xpath"]).map { |e| e.to_s.scan(Regexp.new(v["regexp"])) }.flatten]
+                [k, item.xpath(v["xpath"]).map { |e| e.to_s.scan(Regexp.new(v["regexp"])) }.flatten]
               end.to_h
               case schema["func"]
               when "string" then
                 value = string_func(raw_hash)
               when "list" then
-                value = array_func(raw_hash)
+                value = list_func(raw_hash)
               when "callback" then
                 value = callback_func(raw_hash, schema["name"])
               end
@@ -55,7 +55,7 @@ module Embulk
       end
 
       def list_func(raw_hash)
-        raw_hash.map { |k, v| v }.flatten
+        raw_hash.map { |k, v| v }.flatten.compact
       end
 
       def callback_func(raw_hash, name)
