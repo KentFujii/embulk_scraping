@@ -34,8 +34,6 @@ module Embulk
         if !data.nil? && !data.empty?
           item = Nokogiri::HTML.parse(data)
           dest = @task["schema"].inject([]) do |memo, schema|
-            # https://github.com/shinjiikeda/embulk-filter-script_ruby/blob/master/lib/embulk/filter/script_ruby.rb
-            # https://github.com/takumakanari/embulk-parser-xml/blob/master/lib/embulk/parser/xpath.rb
             next memo << nil if schema["func"] == "none"
             raw_hash = schema["elements"].map do |k, v|
               [k, item.xpath(v["xpath"]).map { |e| e.to_s.scan(Regexp.new(v["regexp"])) }.flatten]
