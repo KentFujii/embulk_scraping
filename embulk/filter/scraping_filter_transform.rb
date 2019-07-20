@@ -5,7 +5,6 @@ module Embulk
   module Filter
 
     class ScrapingFilterTransform < FilterPlugin
-      # filter plugin file name must be: embulk/filter/<name>.rb
       Plugin.register_filter('scraping_filter_transform', self)
 
       def self.transaction(config, in_schema, &control)

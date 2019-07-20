@@ -195,4 +195,6 @@ filters:
         elements:
           - completion
 out:
-  type: stdout
+  type: scraping_formatter
+# out:
+#   type: stdout

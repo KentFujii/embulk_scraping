@@ -3,9 +3,7 @@ require 'pry-nav'
 
 module Embulk
   module Filter
-
     class ScrapingFilterExtract < FilterPlugin
-      # filter plugin file name must be: embulk/filter/<name>.rb
       Plugin.register_filter('scraping_filter_extract', self)
 
       def self.transaction(config, in_schema, &control)

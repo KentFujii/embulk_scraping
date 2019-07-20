@@ -1,9 +1,8 @@
 module Embulk
   module Output
 
-    class ExampleOutputPlugin < OutputPlugin
-      # output plugin file name must be: embulk/output/<name>.rb
-      Plugin.register_output('example', self)
+    class ScrapingFormatter < OutputPlugin
+      Plugin.register_output('scraping_formatter', self)
 
       def self.transaction(config, schema, count, &control)
         task = {
