@@ -1,7 +1,7 @@
 in:
-  type: scraping_extract
-  path_data: ./data
-  path_script: ./scraping.rb
+  type: scraping_parser
+  path_data: ./data/sample-
+  path_script: ./scraping_parser.rb
   schema:
     - name: room_id
       elements:
@@ -159,5 +159,15 @@ in:
         publisher_phone:
           xpath: //p[contains(text(), 'お電話でお問い合わせ')][1]/parent::a[1]/@onclick[1]
           regexp: \d+?-\d+?-\d+
+filters:
+  - type: scraping_filter_extract
+    path_script: ./scraping_filter_extract.rb
+    schema:
+      - name: madori
+        func: madori
+      - name: square
+        func: square
+      - name: completion
+        func: completion
 out:
   type: stdout

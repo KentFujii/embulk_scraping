@@ -1,8 +1,13 @@
 # embulk scraping
 
-- extract_parser
-- transform_filter
-- load_formatter
+- input
+  - scraping_parser htmlからrubyの入力に変換
+- filters
+  - scraping_filter_extract 入力項目別に正規化
+  - scraping_filter_transform 正規化済のデータで項目を作る
+  - scraping_filter_load 出力を振り分ける
+- output
+  - scraping_formatter rubyの出力をjsonに変換
 
 ## setup
 
