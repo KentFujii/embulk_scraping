@@ -4,9 +4,9 @@ require 'pry-nav'
 module Embulk
   module Filter
 
-    class ScrapingFilterExtract < FilterPlugin
+    class ScrapingFilterLoad < FilterPlugin
       # filter plugin file name must be: embulk/filter/<name>.rb
-      Plugin.register_filter('scraping_filter_extract', self)
+      Plugin.register_filter('scraping_filter_load', self)
 
       def self.transaction(config, in_schema, &control)
         require config.param("path_script", :string)
@@ -24,9 +24,7 @@ module Embulk
       def add(page)
         page.each do |record|
           dest = @task["schema"].inject([]) do |memo, schema|
-            index = page.schema.find { |s| s.name == schema['target'] }.index
-            value = method(schema['func']).call(record[index])
-            memo << value
+            memo << schema['elements'].map { |e| [e, record[page.schema.find { |s| s.name == e }.index]] }.to_h
           end
           @page_builder.add(dest)
         end

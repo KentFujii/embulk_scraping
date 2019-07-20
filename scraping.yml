@@ -165,9 +165,34 @@ filters:
     schema:
       - name: madori
         func: madori
+        target: madori
       - name: square
         func: square
+        target: square
       - name: completion
         func: completion
+        target: completion
+  - type: scraping_filter_transform
+    path_script: ./scraping_filter_transform.rb
+    schema:
+      - name: num_rooms
+        func: num_rooms
+        target: madori
+      - name: room_type
+        func: room_type
+        target: madori
+      - name: completion
+        func: completion
+        target: completion
+  - type: scraping_filter_load
+    path_script: ./scraping_filter_load.rb
+    schema:
+      - name: room
+        elements:
+          - num_rooms
+          - room_type
+      - name: building
+        elements:
+          - completion
 out:
   type: stdout
