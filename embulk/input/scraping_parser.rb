@@ -10,6 +10,7 @@ module Embulk
       def self.transaction(config, &control)
         files = Dir.glob(config.param("path_data", :string) + "**")
         require config.param("path_script", :string)
+        env = config.param("env", :hash)
         schema = config.param("schema", :array)
         task = {
           :files => files,

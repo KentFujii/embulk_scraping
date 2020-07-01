@@ -13,7 +13,7 @@
 
 ```
 docker build -t embulk-scraping .
-docker run -it embulk-scraping bash
+docker run -it -v=$(pwd):/embulk-scraping embulk-scraping bash
 ```
 
 ## debug
@@ -21,12 +21,12 @@ docker run -it embulk-scraping bash
 embed `binding.pry` to your plugin and run the command below
 
 ```
-embulk preview scraping.yml -b ./ -I ./ -G
+embulk preview scraping.yml.liquid -b ./ -I ./ -G
 ```
 
 ## run
 
 ```
-embulk run scraping.yml -b ./ -I ./
+embulk run scraping.yml.liquid -b ./ -I ./
 ```
 
