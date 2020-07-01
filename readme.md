@@ -12,7 +12,8 @@
 ## setup
 
 ```
-embulk bundle --path vendor/bundle
+docker build -t embulk-scraping .
+docker run -it embulk-scraping bash
 ```
 
 ## debug
